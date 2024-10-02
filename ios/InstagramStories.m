@@ -8,6 +8,7 @@
 
 // import RCTLog
 #import <React/RCTLog.h>
+#import <Foundation/Foundation.h>
 
 #import "InstagramStories.h"
 
@@ -76,6 +77,9 @@ RCT_EXPORT_MODULE();
     // This call is iOS 10+, can use 'setItems' depending on what versions you support
     [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
     [[UIApplication sharedApplication] openURL:urlScheme options:@{} completionHandler:nil];
+    dispatch_after(dispatch_time(DIS_NSEC(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIPasteboard generalPasteboard].string = url.absoluteString;
+    });
 
     resolve(@[@true, @""]);
 }
