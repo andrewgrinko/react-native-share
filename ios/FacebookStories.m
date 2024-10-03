@@ -80,6 +80,13 @@ RCT_EXPORT_MODULE();
     [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
     [[UIApplication sharedApplication] openURL:urlScheme options:@{} completionHandler:nil];
 
+    if(![options[@"alterPasteboardWith"] isEqual:[NSNull null]] && options[@"alterPasteboardWith"] != nil) {
+        // Delay for 0.25 seconds for pasteboard to update
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIPasteboard generalPasteboard].string = options[@"alterPasteboardWith"];
+        });
+    }
+
     resolve(@[@true, @""]);
 }
 
