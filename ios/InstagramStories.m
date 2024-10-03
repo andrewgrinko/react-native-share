@@ -77,9 +77,13 @@ RCT_EXPORT_MODULE();
     // This call is iOS 10+, can use 'setItems' depending on what versions you support
     [[UIPasteboard generalPasteboard] setItems:pasteboardItems options:pasteboardOptions];
     [[UIApplication sharedApplication] openURL:urlScheme options:@{} completionHandler:nil];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [UIPasteboard generalPasteboard].string = url.absoluteString;
-    });
+
+    if(![options[@"alterPasteboardWith"] isEqual:[NSNull null]] && options[@"alterPasteboardWith"] != nil) {
+        // Delay for 0.25 seconds for pasteboard to update
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIPasteboard generalPasteboard].string = options[@"alterPasteboardWith"];
+        });
+    }
 
     resolve(@[@true, @""]);
 }
