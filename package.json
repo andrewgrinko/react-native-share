@@ -92,7 +92,7 @@
     "typescript": "tsc --noEmit",
     "validate": "yarn lint && yarn typescript",
     "ci:publish": "npx semantic-release",
-    "prepare": "bob build",
+    "build": "bob build",
     "windows": "react-native run-windows"
   },
   "husky": {
